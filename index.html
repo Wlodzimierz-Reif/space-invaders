@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>h1 {color:red;} .attacker {padding: 10px; margin: 10px; border: 1px dotted black;} .defender {padding: 20px; margin: 20px; border: 1px solid black; border-bottom: 3px solid black;} .mother-ship {border: 4px solid black} </style>
+    <title>Bristol Invaders</title>
+    <script src="./js.js" async defer></script>
+    <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black} </style>
 </head>
 <body>
     <!-- create mother ship, 5 defenders and 3 attackers as flex in 3 rows -->
@@ -17,75 +18,12 @@
     <!-- link function to button -->
 
     <h1 style="text-align: center;">Bristol invaders</h1>
-    <div style="text-align: center;">
-        <span class="mother-ship" style="display: inline-block; padding: 30px; margin: 30px;">Mother ship<p class="mother-ship-hp">HP:</p></span>
+
+    <div id="ships">
+        <div id="ships"></div>
     </div>
-    <div style="display: flex; justify-content: space-evenly;">
-        <span class="attacker">Attacker 1 <p class="attacker-1-hp">HP</p></span>
-        <span class="attacker">Attacker 2 <p class="attacker-2-hp">HP</p></span>
-        <span class="attacker">Attacker 3 <p class="attacker-3-hp">HP</p></span>
-        <span class="attacker">Attacker 4 <p class="attacker-4-hp">HP</p></span>
-        <span class="attacker">Attacker 5 <p class="attacker-5-hp">HP</p></span>
-        <span class="attacker">Attacker 6 <p class="attacker-6-hp">HP</p></span>
-        <span class="attacker">Attacker 7 <p class="attacker-7-hp">HP</p></span>
-        <span class="attacker">Attacker 8 <p class="attacker-8-hp">HP</p></span>
-    </div>
-    <div style="display: flex; justify-content: space-evenly;">
-        <span class="defender">Defender 1 <p class="defender-1-hp">HP</p></span>
-        <span class="defender">Defender 2 <p class="defender-2-hp">HP</p></span>
-        <span class="defender">Defender 3 <p class="defender-3-hp">HP</p></span>
-        <span class="defender">Defender 4 <p class="defender-4-hp">HP</p></span>
-        <span class="defender">Defender 5 <p class="defender-5-hp">HP</p></span>
-    </div>
-    <button style="position: absolute; bottom: 10%; left: 50%; padding: 10px;">Fire in the hole!</button>
 
-    <script>
-
-        class Ship {
-            constructor() {
-                this.isActive = true;
-            }
-            receiveHit() {
-                this.hp =- 9;
-                if(this.hp <= 0) {this.hp = 0; disableShip();}
-            }
-            disableShip() {
-                this.isActive = false;
-            }
-        }
-
-        class MotherShip extends Ship{
-            constructor() {
-                this.name = "Mother Ship";
-                this.hp = 100;
-            }
-            receiveHit() { 
-                if(this.hp <= 0) {endGame()}
-                };
-        }
-
-        class Attacker extends Ship {
-            constructor() {
-                this.name = "Defender";
-                this.hp = 80;
-            }
-            receiveHit() {
-                this.hp =- 10;
-            }
-        }
-
-        class Defender extends Ship {
-            constructor() {
-                this.hp = 45;
-            }
-            receiveHit() {
-                this.hp -= 12;
-            }
-        }
-        const motherShip = new MotherShip();
-        motherShip.receiveHit();
-        console.log(motherShip.hp);
-        
-    </script>
+    <button style="position: absolute; bottom: 10%; left: 50%; padding: 10px;" onclick="fire()">Fire in the hole!</button>
+   
 </body>
 </html>
