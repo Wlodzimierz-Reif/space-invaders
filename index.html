@@ -25,9 +25,9 @@
         class MotherShip extends Ship {
             constructor(id) {
                 super(id);
-                this.hp = 100;
+                this.hp = 10;
             }
-            receiveHit() {this.hp -= 9; if (this.hp <= 0) {this.hp = 0; endGame(); }}
+            receiveHit() {this.hp -= 9; if (this.hp <= 0) {this.hp = 0; endGame()}}
         }
         class Attacker extends Ship {
             constructor(id) {
@@ -46,12 +46,54 @@
 
         const endGame = () => {
             shipFleet.forEach(ship => ship.hp = 0);
-            for(let i = 0; i < shipFleet.length; i++) {
-                document.getElementById(`${i}`).innerHTML = "HP: 0"
-                document.getElementById(`ship${i}`).style.backgroundColor = "red";
+            // for(let i = 0; i < shipFleet.length; i++) {
+            //     document.getElementById(`${i}`).innerHTML = "HP: 0"
+            //     document.getElementById(`ship${i}`).style.backgroundColor = "grey";
+            // }
+            const dieShips = () => {
+                // document.getElementById("1").innerHTML = "HP: 0"
+                // document.getElementById("2").innerHTML = "HP: 0"
+                // document.getElementById("3").innerHTML = "HP: 0"
+                // document.getElementById("4").innerHTML = "HP: 0"
+                // document.getElementById("5").innerHTML = "HP: 0"
+                // document.getElementById("6").innerHTML = "HP: 0"
+                // document.getElementById("7").innerHTML = "HP: 0"
+                // document.getElementById("8").innerHTML = "HP: 0"
+                // document.getElementById("9").innerHTML = "HP: 0"
+                // document.getElementById("10").innerHTML = "HP: 0"
+                // document.getElementById("11").innerHTML = "HP: 0"
+                // document.getElementById("12").innerHTML = "HP: 0"
+                // document.getElementById("13").innerHTML = "HP: 0"
+                // document.getElementById("0").innerHTML = "HP: 0"
+                // document.getElementById("ship0").style.backgroundColor = "grey";
+                // document.getElementById("ship1").style.backgroundColor = "grey";
+                // document.getElementById("ship2").style.backgroundColor = "grey";
+                // document.getElementById("ship3").style.backgroundColor = "grey";
+                // document.getElementById("ship4").style.backgroundColor = "grey";
+                // document.getElementById("ship5").style.backgroundColor = "grey";
+                // document.getElementById("ship6").style.backgroundColor = "grey";
+                // document.getElementById("ship7").style.backgroundColor = "grey";
+                // document.getElementById("ship8").style.backgroundColor = "grey";
+                // document.getElementById("ship9").style.backgroundColor = "grey";
+                // document.getElementById("ship10").style.backgroundColor = "grey";
+                // document.getElementById("ship11").style.backgroundColor = "grey";
+                // document.getElementById("ship12").style.backgroundColor = "grey";
+                // document.getElementById("ship13").style.backgroundColor = "grey";
+            //      for(let i = 0; i < shipFleet.length; i++) {
+            //     document.getElementById(`${i}`).innerHTML = "HP: 0"
+            //     document.getElementById(`ship${i}`).style.backgroundColor = "grey";
+            // }
+            for(let i of shipFleet) {
+                document.getElementById(`${shipFleet.indexOf(i)}`).innerHTML = "HP: 0"
+                document.getElementById(`ship${shipFleet.indexOf(i)}`).style.backgroundColor = "grey";
             }
+            }
+            // setTimeout(dieShips, 500);
+            dieShips();
+
             document.getElementById("button").disabled = true;
-            alert("You've saved the earth!!!")
+            document.querySelector("body").style.backgroundColor = "tomato";
+            // alert("You've saved the earth!!!")
         };
 
         let motherShip = new MotherShip(0);
@@ -87,6 +129,8 @@
                 return 80;
             }
         };
+        
+       
 
         const aimAtShip = () => Math.floor(Math.random() * shipFleet.length);
 
@@ -95,6 +139,7 @@
         
 
         const fire = () => {
+            console.log("shot");
             const shipIndex = aimAtShip();
             // console.log(shipIndex);
             
@@ -140,10 +185,10 @@
             }
         }
 changeHpBarColor();
-        // setTimeout(changeToWhite, 100);
-        // setTimeout(changeHpBarColor, 200);
-        // setTimeout(changeToWhite, 300);
-        // setTimeout(changeHpBarColor, 400);
+        setTimeout(changeToWhite, 100);
+        setTimeout(changeHpBarColor, 200);
+        setTimeout(changeToWhite, 300);
+        setTimeout(changeHpBarColor, 400);
 
 
         // console.log(shipFleet);
