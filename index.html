@@ -25,7 +25,7 @@
         class MotherShip extends Ship {
             constructor(id) {
                 super(id);
-                this.hp = 8;
+                this.hp = 100;
             }
             receiveHit() {this.hp -= 9; if (this.hp <= 0) {this.hp = 0; endGame(); }}
         }
@@ -51,7 +51,7 @@
                 document.getElementById(`ship${i}`).style.backgroundColor = "red";
             }
             document.getElementById("button").disabled = true;
-            // alert("You've saved the earth!!!")
+            alert("You've saved the earth!!!")
         };
 
         let motherShip = new MotherShip(0);
@@ -59,15 +59,21 @@
 
         const shipFleet = [motherShip];
 
-        for (let i = 1; i <= 8; i++) {
-            const attacker = new Attacker(i);
-            shipFleet.push(attacker);
-            document.getElementById("ships").innerHTML += `<div id="ship${i}"><img src="images/ship-red.gif"><p>attacker${i}</p><p id="${i}">HP: ${attacker.hp}</p></div>`;
-        }
         for (let i = 1; i <= 5; i++) {
-            const defender = new Defender(i + 8);
+            const defender = new Defender(i);
             shipFleet.push(defender);
-            document.getElementById( "ships").innerHTML += `<div id="ship${i + 8}"><img src="images/ship.png"><p>defender${i}</p><p id="${i + 8}">HP: ${defender.hp}</p></div>`;
+            document.getElementById( "ships").innerHTML += `<div id="ship${i}"><img src="images/ship.png"><p>defender${i}</p><p id="${i}">HP: ${defender.hp}</p></div>`;
+        }
+        for (let i = 1; i <= 8; i++) {
+            const attacker = new Attacker(i + 5);
+            shipFleet.push(attacker);
+            document.getElementById("ships").innerHTML += `<div id="ship${i + 5}"><img src="images/ship-red.gif"><p>attacker${i + 5}</p><p id="${i + 5}">HP: ${attacker.hp}</p></div>`;
+        }
+
+        const updateHtml = () => {
+            shipFleet.forEach(ship => {
+                document.getElementById('ships').innerHTML += `<div><img src="images/ship-red.gif"><p>${ship.id}</p><p>HP: ${ship.hp}</p></div>`
+            })
         }
 
         const checkClass = ship => {
@@ -84,8 +90,14 @@
 
         const aimAtShip = () => Math.floor(Math.random() * shipFleet.length);
 
+        const getShipIndex = () => shipFleet[aimAtShip()];
+        console.log(getShipIndex());
+        
+
         const fire = () => {
             const shipIndex = aimAtShip();
+            // console.log(shipIndex);
+            
             const selectedShip = shipFleet[shipIndex];
             
             selectedShip.receiveHit();
@@ -103,7 +115,7 @@
             document.getElementById(`ship${shipId}`).style.backgroundColor = "white";
             }
 
-
+            // updateHtml();
             const changeHpBarColor = () => {
             const fullHp = checkClass(selectedShip);
             const percentageHp = (selectedShip.hp / fullHp) * 100;
@@ -114,7 +126,7 @@
                     console.log("changed to normal");
                     break;
                 case percentageHp < 25:
-                    document.getElementById(`ship${shipId}`).style.backgroundColor = "red";
+                    document.getElementById(`ship${shipId}`).style.backgroundColor = "orangered";
                     console.log("changed to normal");
                     break;
                 case percentageHp < 50:
