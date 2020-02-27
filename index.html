@@ -18,33 +18,74 @@
 
     <h1 style="text-align: center;">Bristol invaders</h1>
     <div style="text-align: center;">
-        <span class="mother-ship" style="display: inline-block; padding: 30px; margin: 30px;">Mother ship</span>
+        <span class="mother-ship" style="display: inline-block; padding: 30px; margin: 30px;">Mother ship<p class="mother-ship-hp">HP:</p></span>
     </div>
     <div style="display: flex; justify-content: space-evenly;">
-        <span class="attacker">Attacker 2</span>
-        <span class="attacker">Attacker 1</span>
-        <span class="attacker">Attacker 3</span>
-        <span class="attacker">Attacker 4</span>
-        <span class="attacker">Attacker 5</span>
-        <span class="attacker">Attacker 6</span>
-        <span class="attacker">Attacker 7</span>
-        <span class="attacker">Attacker 8</span>
+        <span class="attacker">Attacker 1 <p class="attacker-1-hp">HP</p></span>
+        <span class="attacker">Attacker 2 <p class="attacker-2-hp">HP</p></span>
+        <span class="attacker">Attacker 3 <p class="attacker-3-hp">HP</p></span>
+        <span class="attacker">Attacker 4 <p class="attacker-4-hp">HP</p></span>
+        <span class="attacker">Attacker 5 <p class="attacker-5-hp">HP</p></span>
+        <span class="attacker">Attacker 6 <p class="attacker-6-hp">HP</p></span>
+        <span class="attacker">Attacker 7 <p class="attacker-7-hp">HP</p></span>
+        <span class="attacker">Attacker 8 <p class="attacker-8-hp">HP</p></span>
     </div>
     <div style="display: flex; justify-content: space-evenly;">
-        <span class="defender">Defendef 1</span>
-        <span class="defender">Defendef 2</span>
-        <span class="defender">Defendef 3</span>
-        <span class="defender">Defendef 4</span>
-        <span class="defender">Defendef 5</span>
+        <span class="defender">Defender 1 <p class="defender-1-hp">HP</p></span>
+        <span class="defender">Defender 2 <p class="defender-2-hp">HP</p></span>
+        <span class="defender">Defender 3 <p class="defender-3-hp">HP</p></span>
+        <span class="defender">Defender 4 <p class="defender-4-hp">HP</p></span>
+        <span class="defender">Defender 5 <p class="defender-5-hp">HP</p></span>
     </div>
     <button style="position: absolute; bottom: 10%; left: 50%; padding: 10px;">Fire in the hole!</button>
+
     <script>
-        class MotherShip {
+
+        class Ship {
+            constructor() {
+                this.isActive = true;
+            }
+            receiveHit() {
+                this.hp =- 9;
+                if(this.hp <= 0) {this.hp = 0; disableShip();}
+            }
+            disableShip() {
+                this.isActive = false;
+            }
+        }
+
+        class MotherShip extends Ship{
             constructor() {
                 this.name = "Mother Ship";
                 this.hp = 100;
             }
+            receiveHit() { 
+                if(this.hp <= 0) {endGame()}
+                };
         }
+
+        class Attacker extends Ship {
+            constructor() {
+                this.name = "Defender";
+                this.hp = 80;
+            }
+            receiveHit() {
+                this.hp =- 10;
+            }
+        }
+
+        class Defender extends Ship {
+            constructor() {
+                this.hp = 45;
+            }
+            receiveHit() {
+                this.hp -= 12;
+            }
+        }
+        const motherShip = new MotherShip();
+        motherShip.receiveHit();
+        console.log(motherShip.hp);
+        
     </script>
 </body>
 </html>
