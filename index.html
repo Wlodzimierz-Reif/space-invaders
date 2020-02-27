@@ -5,17 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bristol Invaders</title>
-    <script src="./js.js" async defer></script>
-    <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black} </style>
+    <!-- <script src="./js.js" async defer></script> -->
+    <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black; background-color: green;} </style>
 </head>
 <body>
-    <!-- create mother ship, 5 defenders and 3 attackers as flex in 3 rows -->
-    <!-- make class of all 3 ships with inheritance and polymorphism -->
-    <!-- create 3 arrays with different ship classes -->
-    <!-- create function that randomply chooses array of ship types -->
-    <!-- create math.random that chooses one ship in array -->
-    <!-- trigger methid receiveHit() -->
-    <!-- link function to button -->
 
     <h1 style="text-align: center;">Bristol invaders</h1>
 
@@ -23,7 +16,95 @@
         <div id="ships"></div>
     </div>
 
-    <button style="position: absolute; bottom: 10%; left: 50%; padding: 10px;" onclick="fire()">Fire in the hole!</button>
+    <button style="position: absolute; bottom: 20%; left: 50%; padding: 10px;" onclick="newGame()">New game</button>
+    <button style="position: absolute; bottom: 15%; left: 50%; padding: 10px;" onclick="fire()">Fire in the hole!</button>
    
+    <script>
+        class Ship {
+            constructor(id) {
+                this.isActive = true;
+                this.id = id;
+            }
+            disableShip() {
+                this.isActive = false;
+            }
+        }
+        class MotherShip extends Ship{
+            constructor(id) {
+                super(id);
+                this.hp = 100;
+            }
+            receiveHit() { 
+                this.hp -= 9;
+                if(this.hp <= 0) {endGame()}
+            }
+        }
+        class Attacker extends Ship {
+            constructor(id) {
+                super(id);
+                this.hp = 45;
+            }
+            receiveHit() {
+                this.hp -= 12;
+                if(this.hp <= 0) 
+                    {this.hp = 0; 
+                    this.disableShip();
+                    }
+            }
+        }
+        class Defender extends Ship {
+            constructor(id) {
+                super(id);
+                this.hp = 80;
+            }
+            receiveHit() {
+                this.hp -= 10;
+                if(this.hp <= 0) {this.hp = 0; this.disableShip();}
+            }
+        }
+
+        const endGame = () => {
+            shipFleet.map(ship => {
+                ship.hp = 0;
+                return ship;
+            });
+            alert("We are safe!!!");
+            console.log(shipFleet.forEach(ship => console.log(ship.hp)));   
+        }
+
+        let motherShip = new MotherShip(0);
+        document.getElementById("ships").innerHTML += `<div><p>mother ship</p><p id="0">HP: ${motherShip.hp}</p></div>` 
+
+        const shipFleet = [motherShip];
+
+        for(let i = 1; i <= 8; i++) {
+            const attacker = new Attacker(i);
+            shipFleet.push(attacker);
+            document.getElementById("ships").innerHTML += `<div><p>attacker${i}</p><p id="${i}">HP: ${attacker.hp}</p></div>` 
+        }
+        for(let i = 1; i <= 5; i++) {
+            const defender = new Defender(i+8);
+            shipFleet.push(defender);
+            document.getElementById("ships").innerHTML += `<div><p>defender${i}</p><p id="${i+8}">HP: ${defender.hp}</p></div>` 
+        }
+
+        const aimAtShip = () => Math.floor(Math.random() * shipFleet.length);
+        const fire = () => {
+
+            const shipIndex = aimAtShip();
+            const selectedShip = shipFleet[shipIndex];
+            
+            selectedShip.receiveHit();
+            const shipId = selectedShip.id;
+            document.getElementById(`${shipId}`).innerHTML = `HP: ${selectedShip.hp}`
+            
+            if(selectedShip.isActive === false) shipFleet.splice(shipIndex, 1);
+            if(shipFleet.length < 1) {endGame()};   
+        }
+
+        const newGame = () => {
+            window.location.reload();
+        }
+    </script>
 </body>
 </html>

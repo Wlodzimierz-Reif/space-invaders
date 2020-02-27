@@ -7,7 +7,6 @@ class Ship {
         this.isActive = false;
     }
 }
-
 class MotherShip extends Ship{
     constructor(id) {
         super(id);
@@ -18,7 +17,6 @@ class MotherShip extends Ship{
         if(this.hp <= 0) {endGame()}
     }
 }
-
 class Attacker extends Ship {
     constructor(id) {
         super(id);
@@ -32,7 +30,6 @@ class Attacker extends Ship {
             }
     }
 }
-
 class Defender extends Ship {
     constructor(id) {
         super(id);
@@ -44,8 +41,6 @@ class Defender extends Ship {
     }
 }
 
-
-
 const endGame = () => {
     shipFleet.map(ship => {
         ship.hp = 0;
@@ -54,9 +49,6 @@ const endGame = () => {
     alert("We are safe!!!");
     console.log(shipFleet.forEach(ship => console.log(ship.hp)));   
 }
-
-
-
 
 let motherShip = new MotherShip(0);
 document.getElementById("ships").innerHTML += `<div><p>mother ship</p><p id="0">HP: ${motherShip.hp}</p></div>` 
@@ -73,29 +65,23 @@ for(let i = 1; i <= 5; i++) {
     shipFleet.push(defender);
     document.getElementById("ships").innerHTML += `<div><p>defender${i}</p><p id="${i+8}">HP: ${defender.hp}</p></div>` 
 }
-console.log(shipFleet);
-
-
-
 
 const aimAtShip = () => Math.floor(Math.random() * shipFleet.length);
-
 const fire = () => {
 
     const shipIndex = aimAtShip();
     const selectedShip = shipFleet[shipIndex];
     
-    console.log(shipIndex);
-    console.log(selectedShip.hp);
-    
     selectedShip.receiveHit();
-    
-    console.log(selectedShip.hp);
+    const shipId = selectedShip.id;
+    document.getElementById(`${shipId}`).innerHTML = `HP: ${selectedShip.hp}`
     
     if(selectedShip.isActive === false) shipFleet.splice(shipIndex, 1);
-    if(shipFleet.length < 1) {endGame()};
-    
-    console.log(shipFleet); 
+    if(shipFleet.length < 1) {endGame()};   
+}
+
+const newGame = () => {
+    window.location.reload();
 }
 
 
