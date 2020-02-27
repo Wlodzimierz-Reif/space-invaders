@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style>h1 {color:red;} span {border: 1px solid black; padding: 10px; margin: 20px}</style>
+    <style>h1 {color:red;} .attacker {padding: 10px; margin: 10px; border: 1px dotted black;} .defender {padding: 20px; margin: 20px; border: 1px solid black; border-bottom: 3px solid black;} .mother-ship {border: 4px solid black} </style>
 </head>
 <body>
     <!-- create mother ship, 5 defenders and 3 attackers as flex in 3 rows -->
@@ -18,25 +18,33 @@
 
     <h1 style="text-align: center;">Bristol invaders</h1>
     <div style="text-align: center;">
-        <span style="display: inline-block; padding: 30px; margin: 30px;">Mother ship</span>
+        <span class="mother-ship" style="display: inline-block; padding: 30px; margin: 30px;">Mother ship</span>
     </div>
     <div style="display: flex; justify-content: space-evenly;">
-        <span>Attacker 2</span>
-        <span>Attacker 1</span>
-        <span>Attacker 3</span>
-        <span>Attacker 4</span>
-        <span>Attacker 5</span>
+        <span class="attacker">Attacker 2</span>
+        <span class="attacker">Attacker 1</span>
+        <span class="attacker">Attacker 3</span>
+        <span class="attacker">Attacker 4</span>
+        <span class="attacker">Attacker 5</span>
+        <span class="attacker">Attacker 6</span>
+        <span class="attacker">Attacker 7</span>
+        <span class="attacker">Attacker 8</span>
     </div>
     <div style="display: flex; justify-content: space-evenly;">
-        <span>Defendef 1</span>
-        <span>Defendef 2</span>
-        <span>Defendef 3</span>
-        <span>Defendef 4</span>
-        <span>Defendef 5</span>
-        <span>Defendef 6</span>
-        <span>Defendef 7</span>
-        <span>Defendef 8</span>
+        <span class="defender">Defendef 1</span>
+        <span class="defender">Defendef 2</span>
+        <span class="defender">Defendef 3</span>
+        <span class="defender">Defendef 4</span>
+        <span class="defender">Defendef 5</span>
     </div>
     <button style="position: absolute; bottom: 10%; left: 50%; padding: 10px;">Fire in the hole!</button>
+    <script>
+        class MotherShip {
+            constructor() {
+                this.name = "Mother Ship";
+                this.hp = 100;
+            }
+        }
+    </script>
 </body>
 </html>
