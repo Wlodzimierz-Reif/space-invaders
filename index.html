@@ -5,15 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Bristol Invaders</title>
-        <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black; background-color: green; margin: 5px;} img {height: 50px}</style>
+        <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black; background-color: green; margin: 5px; width: 90px} img {height: 50px; margin-left: auto; margin-right: auto;}</style>
     </head>
     <body>
         <h1 style="text-align: center;">Bristol invaders</h1>
-        <section id="ships" style="display: flex;">
-            <div id="ships"></div>
+        <section id="ships" style="display: flex; justify-content: space-evenly;" >
         </section>
         <button style="position: absolute; bottom: 20%; left: 50%; padding: 10px;" onclick="newGame()">New game</button>
-        <button style="position: absolute; bottom: 15%; left: 50%; padding: 10px;" onclick="fire()">Fire in the hole!</button>
+        <button style="position: absolute; bottom: 15%; left: 50%; padding: 10px;" id="button" onclick="fire()">Fire in the hole!</button>
 
     <script>
         class Ship {
@@ -26,9 +25,9 @@
         class MotherShip extends Ship {
             constructor(id) {
                 super(id);
-                this.hp = 100;
+                this.hp = 8;
             }
-            receiveHit() {this.hp -= 9; if (this.hp <= 0) {endGame(); }}
+            receiveHit() {this.hp -= 9; if (this.hp <= 0) {this.hp = 0; endGame(); }}
         }
         class Attacker extends Ship {
             constructor(id) {
@@ -46,26 +45,29 @@
         }
 
         const endGame = () => {
-            shipFleet.map(ship => {ship.hp = 0;
-            return ship;
-            });
-            alert("We are safe!!!");
+            shipFleet.forEach(ship => ship.hp = 0);
+            for(let i = 0; i < shipFleet.length; i++) {
+                document.getElementById(`${i}`).innerHTML = "HP: 0"
+                document.getElementById(`ship${i}`).style.backgroundColor = "red";
+            }
+            document.getElementById("button").disabled = true;
+            // alert("You've saved the earth!!!")
         };
 
         let motherShip = new MotherShip(0);
-        document.getElementById("ships").innerHTML += `<div><p><img src="https://media.giphy.com/media/KY2ZMhnCxP008/giphy.gif"></p><p id="0">HP: ${motherShip.hp}</p></div>`;
+        document.getElementById("ships").innerHTML += `<div id="ship0"><p><img src="https://media.giphy.com/media/KY2ZMhnCxP008/giphy.gif"></p><p id="0">HP: ${motherShip.hp}</p></div>`;
 
         const shipFleet = [motherShip];
 
         for (let i = 1; i <= 8; i++) {
             const attacker = new Attacker(i);
             shipFleet.push(attacker);
-            document.getElementById("ships").innerHTML += `<div><p>attacker${i}</p><p id="${i}">HP: ${attacker.hp}</p></div>`;
+            document.getElementById("ships").innerHTML += `<div id="ship${i}"><img src="images/ship-red.gif"><p>attacker${i}</p><p id="${i}">HP: ${attacker.hp}</p></div>`;
         }
         for (let i = 1; i <= 5; i++) {
             const defender = new Defender(i + 8);
             shipFleet.push(defender);
-            document.getElementById( "ships").innerHTML += `<div><p>defender${i}</p><p id="${i + 8}">HP: ${defender.hp}</p></div>`;
+            document.getElementById( "ships").innerHTML += `<div id="ship${i + 8}"><img src="images/ship.png"><p>defender${i}</p><p id="${i + 8}">HP: ${defender.hp}</p></div>`;
         }
 
         const checkClass = ship => {
@@ -85,13 +87,20 @@
         const fire = () => {
             const shipIndex = aimAtShip();
             const selectedShip = shipFleet[shipIndex];
-
+            
             selectedShip.receiveHit();
             const shipId = selectedShip.id;
             document.getElementById(`${shipId}`).innerHTML = `HP: ${selectedShip.hp}`;
 
+            if (selectedShip.isActive === false) {
+            shipFleet.splice(shipIndex, 1)
+            document.getElementById(`ship${shipId}`).style.display = "none";
+            }
+            if (shipFleet.length < 1) {
+            endGame();
+            }
             const changeToWhite = () => {
-            document.getElementById(`${shipId}`).style.backgroundColor = "white";
+            document.getElementById(`ship${shipId}`).style.backgroundColor = "white";
             }
 
 
@@ -101,34 +110,31 @@
 
             switch (true) {
                 case percentageHp <= 0:
-                document.getElementById(`${shipId}`).style.backgroundColor = "grey";
-            console.log("changed to normal");
-                break;
+                    document.getElementById(`ship${shipId}`).style.backgroundColor = "grey";
+                    console.log("changed to normal");
+                    break;
                 case percentageHp < 25:
-                document.getElementById(`${shipId}`).style.backgroundColor = "red";
-            console.log("changed to normal");
-                break;
-            case percentageHp < 50:
-                document.getElementById(`${shipId}`).style.backgroundColor = "yellow";
-            console.log("changed to normal");
-                break;
+                    document.getElementById(`ship${shipId}`).style.backgroundColor = "red";
+                    console.log("changed to normal");
+                    break;
+                case percentageHp < 50:
+                    document.getElementById(`ship${shipId}`).style.backgroundColor = "yellow";
+                    console.log("changed to normal");
+                    break;
                 case percentageHp >= 50:
-                document.getElementById(`${shipId}`).style.backgroundColor = "green";
-            console.log("changed to normal");
-            break;
+                    document.getElementById(`ship${shipId}`).style.backgroundColor = "green";
+                    console.log("changed to normal");
+                    break;
             }
         }
+changeHpBarColor();
+        // setTimeout(changeToWhite, 100);
+        // setTimeout(changeHpBarColor, 200);
+        // setTimeout(changeToWhite, 300);
+        // setTimeout(changeHpBarColor, 400);
 
-        setTimeout(changeToWhite, 100);
-        setTimeout(changeHpBarColor, 200);
-        setTimeout(changeToWhite, 300);
-        setTimeout(changeHpBarColor, 400);
 
-        if (selectedShip.isActive === false) shipFleet.splice(shipIndex, 1);
-        if (shipFleet.length < 1) {
-        endGame();
-        }
-        console.log(shipFleet);
+        // console.log(shipFleet);
     };
 
       const newGame = () => {
