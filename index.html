@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bristol Invaders</title>
     <!-- <script src="./js.js" async defer></script> -->
-    <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black; background-color: green;} </style>
+    <style>* {box-sizing: border-box; padding: 0; margin: 0;} div {border: 1px solid black; background-color: white;} p {font-size: 1.5em}</style>
 </head>
 <body>
 
@@ -97,9 +97,20 @@
             selectedShip.receiveHit();
             const shipId = selectedShip.id;
             document.getElementById(`${shipId}`).innerHTML = `HP: ${selectedShip.hp}`
+    
+            const changToRed = () => {
+                document.getElementById(`${shipId}`).style.backgroundColor = "red";
+            }
+            const changeToWhite = () => {
+                document.getElementById(`${shipId}`).style.backgroundColor = "white";
+            }
+            setTimeout(changToRed, 100);
+            setTimeout(changeToWhite, 500);
             
             if(selectedShip.isActive === false) shipFleet.splice(shipIndex, 1);
-            if(shipFleet.length < 1) {endGame()};   
+            if(shipFleet.length < 1) {endGame()};
+            console.log(shipFleet);
+               
         }
 
         const newGame = () => {
