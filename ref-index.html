@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <!-- <script src="main.js" async defer></script> -->
+  </head>
+  <body>
+    <section id="ships"></section>
+    <button id="fire">Fire</button>
+
+    <script>
+        const numMotherShips = 1;
+        const numAttackShips = 5;
+        const numDefenseShips = 8;
+        const totalShips = numAttackShips + numDefenseShips + numMotherShips;
+        const ships = [];
+        const shipsElement = document.getElementById('ships');
+
+        class Ship {
+            constructor(name, hp, damgePoints) {
+                this.name = name;
+                this.hp = hp;
+                this.damgePoints = damgePoints;
+            }
+            takeHit() {
+                this.hp = this.hp - this.damgePoints;
+            }
+            die() {
+                this.hp = 0;
+            }
+        }
+
+        for (let index = 0; index < totalShips; index++) {
+            let newShip;
+            if (index < numMotherShips) {
+                newShip = new Ship("MotherShip", 100, 9);
+            } else if (index <= numAttackShips) {
+                newShip = new Ship("AttackShip", 45, 12);
+            } else if (index <= totalShips) {
+                newShip = new Ship("DefenseShip", 80, 10);
+            }
+            ships.push(newShip);
+        }
+
+        const updateHtml = () => {
+            shipsElement.innerHTML = "";
+            ships.forEach(ship => {
+                shipsElement.innerHTML += `<p>${ship.name}: ${ship.hp}</p>`;
+            })
+        }
+
+        const endGame = () => {
+            ships.forEach(ship => ship.die())
+        }
+
+        const dealDamage = () => {
+            const randomIndex = Math.floor(Math.random() * ships.length);
+            const randomShip = ships[randomIndex];
+            randomShip.takeHit();
+            
+            if (randomShip.hp <= 0 && randomShip.name === "MotherShip") {
+                endGame();
+            } else if (randomShip.hp <= 0) {
+                ships.splice(randomIndex, 1);
+            }
+                flash(randomIndex);
+            updateHtml()
+        }
+
+        const flash = (ship) => {
+            document.querySelector(`#ships > p:nth-child(${ship + 1})`).style.color = "red"
+            setTimeout(() => document.querySelector(`#ships > p:nth-child(${ship + 1})`).style.color = "yellow", 100);
+            setTimeout(() => document.querySelector(`#ships > p:nth-child(${ship + 1})`).style.color = "red", 200);
+            setTimeout(() => document.querySelector(`#ships > p:nth-child(${ship + 1})`).style.color = "black", 300);
+        }
+
+        document.querySelector('button').addEventListener("click", dealDamage);
+
+        updateHtml();
+
+        </script>
+  </body>
+</html>
