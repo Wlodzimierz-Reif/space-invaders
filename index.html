@@ -68,6 +68,7 @@
       }
 
       const newGame = () => {
+        document.getElementById("fire").disabled = false;
         ships = [];
         for (let index = 0; index < totalShips; index++) {
           let newShip;
